@@ -11,7 +11,7 @@ const ChatEntry = (props) => {
   const heart = props.liked ? '❤️' : '🤍';
 
   return (
-    <div className={senderClass}>
+    <div key={props.id} className={senderClass}>
       <h2 className="entry-name">{props.sender}</h2>
       <section className="entry-bubble">
         <p>{props.body}</p>
@@ -33,10 +33,10 @@ const ChatEntry = (props) => {
 };
 
 ChatEntry.propTypes = {
-  id: PropTypes.number.isRequired,
-  sender: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  timeStamp: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  sender: PropTypes.string,
+  body: PropTypes.string,
+  timeStamp: PropTypes.string,
   liked: PropTypes.bool,
 };
 
