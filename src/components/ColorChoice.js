@@ -1,5 +1,3 @@
-
-// ColorChoice.js
 import React from 'react';
 
 const ColorChoice = ({ setColorCallback }) => {
