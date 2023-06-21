@@ -72,3 +72,8 @@
 .purple {
   color: purple
 }
+
+#App h2 {
+  color: #222;
+  font-size: small;
+}
