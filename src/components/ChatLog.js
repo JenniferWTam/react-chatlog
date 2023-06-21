@@ -1,11 +1,12 @@
-import ChatEntry from './ChatEntry';
+import React from 'react';
+import ChatEntry from './ChatEntry.js';
 import PropTypes from 'prop-types';
 
 const ChatLog = (props) => {
-  const chatEntryComponents = props.entries.map((entry, index) => {
+  const chatEntryComponents = props.entries.map((entry) => {
     return (
       <ChatEntry
-        key={index}
+        key={entry.id}
         id={entry.id}
         sender={entry.sender}
         body={entry.body}
@@ -13,12 +14,14 @@ const ChatLog = (props) => {
         liked={entry.liked}
         onUpdateLike={props.onUpdateLike}
         onHeartClicks={props.onHeartClicks}
-        selectedColor={props.selectedColor}
+        localSender={props.localSender}
+        colorLocal={props.colorLocal}
+        colorRemote={props.colorRemote}
       />
     );
   });
 
-  return <section key="chat-log" className="chat-log">{chatEntryComponents}</section>;
+  return <div>{chatEntryComponents}</div>;
 };
 
 ChatLog.propTypes = {

@@ -1,30 +1,32 @@
 import React from 'react';
 import './App.css';
-import ChatLog from './components/ChatLog';
 import chatMessages from './data/messages.json';
+import ChatLog from './components/ChatLog.js';
 import ColorChoice from './components/ColorChoice';
 import { useState } from 'react';
 
 const App = () => {
   const [messagesData, setMessagesData] = useState(chatMessages);
+  const [colorLocal, setColorLocal] = useState('#000000');
+  const [colorRemote, setColorRemote] = useState('#000000');
 
+  const localSender = messagesData[0]['sender'];
+  const findremoteSender = (messagesData) => {
+        for (const message of messagesData) {
+          if (message['sender'] !== localSender) {
+            return message['sender'];
+          }
+        }
+      };
+  const remoteSender= findremoteSender(messagesData);
 
-  const userOne = messagesData[0]['sender'];
-  const findUserTwo = (messagesData) => {
-    for (const message of messagesData) {
-      if (message['sender'] !== userOne) {
-        return message['sender'];
-      }
-    }
+  const setLocalSenderColor = (newColor) => {
+    setColorLocal(newColor);
   };
-  const userTwo = findUserTwo(messagesData);
 
-  const [selectedColor, setSelectedColor] = useState('#000000');
-  const handleColorSelection = (color) => {
-    setSelectedColor(color);
-
+  const setRemoteSenderColor = (newColor) => {
+    setColorRemote(newColor);
   };
-
 
   const [numLiked, setNumLiked] = useState(0);
   const onHeartClicks = (liked) => {
@@ -34,6 +36,7 @@ const App = () => {
       setNumLiked(numLiked + 1);
     }
   };
+
 
   const onUpdateLikeFx = (id) => {
     const newMessages = messagesData.map((message) => {
@@ -46,27 +49,39 @@ const App = () => {
 
     setMessagesData(newMessages);
   };
-
   return (
     <div id="App">
       <header>
         <h1>
-          Chat between {userOne} and {userTwo}
+          Chat between {localSender} and {remoteSender}
         </h1>
         <section>
+          <ColorChoice
+            sender={localSender}
+            setColorCallback={setLocalSenderColor}
+            color={colorLocal}
+          />
+          <ColorChoice
+            sender={remoteSender}
+            setColorCallback={setRemoteSenderColor}
+            color={colorRemote}
+          />
+        </section>
+        <section>
           <h2 className="widget" id="heartWidget">
-            {numLiked} ❤️s
+             {numLiked} ❤️s
           </h2>
         </section>
       </header>
       <main>
-        <ColorChoice setColorCallback={handleColorSelection} />
         <ChatLog
           entries={messagesData}
           onUpdateLike={onUpdateLikeFx}
           onHeartClicks={onHeartClicks}
-          selectedColor={selectedColor}
-        />
+          localSender={localSender}
+          colorLocal={colorLocal}
+          colorRemote={colorRemote}
+        ></ChatLog>
       </main>
     </div>
   );

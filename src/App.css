@@ -3,10 +3,9 @@
 }
 
 #App header {
-  background-color: #222;
   color: #fff;
   padding-bottom: 0.5rem;
-  position: fixed;
+  position: sticky;
   width: 100%;
   z-index: 100;
   text-align: center;
